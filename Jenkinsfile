@@ -35,7 +35,7 @@ node {
 	  sh "echo 'Deploying to Tomcat'"
 	  sh "whoami"
 	  sshagent(credentials: [''], ignoreMissing: true){
-  def source = '/Users/Shared/Jenkins/Home/workspace/CaseStudy1/target/*.war'
+  def source = '/Users/Shared/Jenkins/Home/workspace/CaseStudy1Pipeline/target/*.war'
   def target = '/Library/Tomcat/webapps/'
 	  sh "cp $source $target"
 	  }
