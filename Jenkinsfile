@@ -39,7 +39,23 @@ node {
   def target = '/Library/Tomcat/webapps/'
 	  sh "cp $source $target"
 	  }
-  } 	
+  } 
+
+  stage ('Post Deploy Test'){
+      sleep 20
+      while true
+	do
+	  STATUS=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8082/myweb-0.0.1-SNAPSHOT/)
+	  if [ $STATUS -eq 200 ]; then
+	    echo "Got 200! All done!"
+	    break
+	  else
+	    exit  "Got $STATUS Error"
+	  fi
+	  sleep 10
+         done
+	
+  }
 	
   stage ('UPLOAD Artifactory'){
   def server = Artifactory.server('MyArtifactory')	
