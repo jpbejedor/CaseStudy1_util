@@ -42,18 +42,11 @@ node {
   } 
 
   stage ('Post Deploy Test'){
-      sleep 20
-      while true
-	do
-	  STATUS=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8082/myweb-0.0.1-SNAPSHOT/)
-	  if [ $STATUS -eq 200 ]; then
-	    echo "Got 200! All done!"
-	    break
-	  else
-	    exit  "Got $STATUS Error"
-	  fi
-	  sleep 10
-         done
+      sleep 20   
+  int status = sh(script: "curl -w '%{http_code}' http://localhost:8082/myweb-0.0.1-SNAPSHOT", returnStdout: true)
+  if (status != 200 || status != 201) {
+    error("Returned status code = $status when calling $url")
+}
 	
   }
 	
