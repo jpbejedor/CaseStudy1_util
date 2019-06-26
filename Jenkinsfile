@@ -2,7 +2,6 @@ node {
   stage('SCM Checkout'){
      	git 'https://github.com/jpbejedor/CaseStudy1.git'
 	  
-	  { 
     slackSend baseUrl: 'https://hooks.slack.com/services/', 
     channel: '#devops', 
     color: 'good', 
@@ -10,7 +9,6 @@ node {
     message: 'SCM Now Checked Out!', 
     teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
   
-   }
   }
     
   stage('BUILD'){
