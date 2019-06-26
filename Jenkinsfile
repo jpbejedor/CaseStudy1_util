@@ -48,6 +48,9 @@ node {
 	  try {
 	    content = url.toURL().openConnection().with { conn ->
 		readTimeout = 10000
+		 
+		echo "$responseCode is the Response Code"
+		    
 		if( responseCode != 200 ) {
 		    throw new Exception( 'Not Ok' )
 		}
