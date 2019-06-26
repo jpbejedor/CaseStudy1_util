@@ -42,27 +42,11 @@ node {
   } 
 
   stage ('Post Deploy Test'){
-      sleep 20   
+      sleep 10   
   def url = "http://localhost:8082/myweb-0.0.1-SNAPSHOT"
-  def content 
-	  try {
-	    content = url.toURL().openConnection().with { conn ->
-		readTimeout = 10000
-		 
-		echo "$responseCode is the Response Code"
-		    
-		if( responseCode != 200 ) {
-		    throw new Exception( 'Not Ok' )
-		}
-		conn.content.withReader { r ->
-		    r.text
-		}
-	    }
-	}
-
-	catch( e ) {
-	    content="SORRY Webapp IS CURRENTLY NOT AVAILABLE"
-	}
+  def response = httpRequest "$url"
+   println('Status: '+response.status)
+   println('Response: '+response.content)
   }
 	
   stage ('UPLOAD Artifactory'){
