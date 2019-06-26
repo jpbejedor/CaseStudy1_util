@@ -43,7 +43,7 @@ node {
 
   stage ('Post Deploy Test'){
       sleep 20   
-  int status = sh(script: "curl -w '%{http_code}' http://localhost:8082/myweb-0.0.1-SNAPSHOT", returnStdout: true)
+  int status = sh(script: "curl -IL http://localhost:8082/myweb-0.0.1-SNAPSHOT | grep "^HTTP\/"", returnStdout: true)
   if (status != 200 || status != 201) {
     error("Returned status code = $status when calling $url")
 }
