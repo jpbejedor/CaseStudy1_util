@@ -46,8 +46,6 @@ node {
 	  
      def Response = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
        sh "Response is $Response"
-	  
-}
   }
 	
   stage ('UPLOAD Artifactory'){
