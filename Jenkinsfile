@@ -44,8 +44,9 @@ node {
   stage ('Post Deploy Test'){
       sleep 10  
 	  
-     def Response = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
-       sh "Response is $Response"
+     //def Response = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
+       def response = sh(script: 'curl http://localhost:8082/myweb-0.0.1-SNAPSHOT', returnStdout: true)
+       sh "Response is $response"
   }
 	
   stage ('UPLOAD Artifactory'){
