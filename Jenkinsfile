@@ -42,11 +42,16 @@ node {
   } 
 
   stage ('Post Deploy Test'){
-      sleep 10   
-  def url = "http://localhost:8082/myweb-0.0.1-SNAPSHOT"
-  def response = httpRequest "$url"
-   println('Status: '+response.status)
-   println('Response: '+response.content)
+      sleep 10  
+	  
+	  def get = new URL("http://localhost:8082/myweb-0.0.1-SNAPSHOT/").openConnection();
+         def getRC = get.getResponseCode();
+         println(getRC);
+      if(getRC.equals(200)) {
+    println(get.getInputStream().getText());
+       
+	  
+}
   }
 	
   stage ('UPLOAD Artifactory'){
