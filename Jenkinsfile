@@ -109,7 +109,7 @@ node {
 	
    stage('Email Notification'){
        mail bcc: '', body: '''Hi Team! 
-Your Build is now Deployed!
+DevOps CI/CD Life Cycle is completed!
 
 Thanks.
 
