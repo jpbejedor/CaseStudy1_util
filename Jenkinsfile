@@ -44,7 +44,7 @@ node {
   stage ('Post Deploy Test'){
       sleep 20   
   def status = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
-  if (status != 200 || status != 201) {
+  if (status != 200) {
     error("Returned status code = $status when calling URL")
   }
 	sh "Success!!!!"
