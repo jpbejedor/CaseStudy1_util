@@ -62,6 +62,16 @@ node {
   	rtMaven.tool = 'maven3.6.1'
   def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
   	server.publishBuildInfo buildInfo  
-  }		
+  }	
+	
+   stage ('Slack Notification'){ 
+    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+    channel: '#devops', 
+    color: 'good', 
+    iconEmoji: '', 
+    message: 'Your Build is now Deployed!', 
+    teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
+  
+   }
 }
 
