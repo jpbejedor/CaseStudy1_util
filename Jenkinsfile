@@ -73,5 +73,17 @@ node {
     teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
   
    }
+	
+	stage('Email Notification'){
+       mail bcc: '', body: '''Hi Team! 
+Your Build is now Deployed!
+
+Thanks.
+
+Kind Regards,
+
+JP Bejedor''', cc: 'jp.bedejor@sprint.com', from: '', replyTo: '', subject: 'DevOps Jenkins Job Notif', to: 'igsp-eai-prod@sprint.com'
+	
+	}		
 }
 
