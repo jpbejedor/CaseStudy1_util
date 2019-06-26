@@ -84,8 +84,6 @@ node {
        def response = sh (script: "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s", returnStdout: true).trim()
        sh "echo 'Response is $response' "
 	  if (response != '200'){
-	   error "Pipeline aborted due to Site failure: $response"
-		  
     slackSend baseUrl: 'https://hooks.slack.com/services/', 
     channel: '#devops', 
     color: 'good', 
@@ -93,6 +91,7 @@ node {
     message: 'Failed to Access the Web Application!', 
     teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
 		  
+	   error "Pipeline aborted due to Site failure: $response"
 	  }else
 	  sh "echo 'Successfully Accessed the site with return code $response'"
 	  
