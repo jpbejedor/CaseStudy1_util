@@ -27,7 +27,8 @@ node {
   def scannerHome = tool 'SonarQubeScanner'
 	withSonarQubeEnv('SonarQube') {
       	sh "${scannerHome}/bin/sonar-scanner"	
-    
+	}
+	  
 	sleep 5
 	
 	timeout(time: 1, unit: 'HOURS') {
@@ -50,7 +51,6 @@ node {
     iconEmoji: '', 
     message: 'SonarQube Testing Done and Passed Quality Gate!', 
     teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
-    }
   }
 	
   stage ('DEPLOY'){
