@@ -44,8 +44,9 @@ node {
   stage ('Post Deploy Test'){
       sleep 10  
 	  
-	  def get = new URL("http://localhost:8082/myweb-0.0.1-SNAPSHOT/").openConnection();
-         def getRC = get.getResponseCode();
+	  #def get = new URL("http://localhost:8082/myweb-0.0.1-SNAPSHOT/").openConnection();
+	  def response = httpRequest 'http://localhost:8082/myweb-0.0.1-SNAPSHOT'
+         def getRC = get.response();
          println(getRC);
       if(getRC.equals(200)) {
     println(get.getInputStream().getText());
