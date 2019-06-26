@@ -43,11 +43,11 @@ node {
 
   stage ('Post Deploy Test'){
       sleep 20   
-  int status = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
+  def status = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
   if (status != 200 || status != 201) {
-    error("Returned status code = $status when calling $url")
-}
-	
+    error("Returned status code = $status when calling URL")
+  }
+	sh "Success!!!!"
   }
 	
   stage ('UPLOAD Artifactory'){
