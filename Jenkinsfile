@@ -14,17 +14,23 @@ node {
   stage('BUILD'){
   def mvnHome = tool name: 'maven3.6.1', type: 'maven'
     	sh "${mvnHome}/bin/mvn clean package"
+	  
+    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+    channel: '#devops', 
+    color: 'good', 
+    iconEmoji: '', 
+    message: 'Build Completed!', 
+    teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
    }
 	
   stage('TEST'){
   def scannerHome = tool 'SonarQubeScanner'
 	withSonarQubeEnv('SonarQube') {
       	sh "${scannerHome}/bin/sonar-scanner"	
-    }
-  }
+    
+	sleep 5
 	
-   stage("Quality Gate Status Check"){
-          timeout(time: 1, unit: 'HOURS') {
+	timeout(time: 1, unit: 'HOURS') {
               def qg = waitForQualityGate()
               if (qg.status != 'OK') {
                    //slackSend baseUrl: 'https://hooks.slack.com/services/', 
@@ -37,7 +43,15 @@ node {
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
               }
           }
-      }
+	
+    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+    channel: '#devops', 
+    color: 'good', 
+    iconEmoji: '', 
+    message: 'SonarQube Testing Done and Passed Quality Gate!', 
+    teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
+    }
+  }
 	
   stage ('DEPLOY'){
 	  sh "echo 'Deploying to Tomcat'"
@@ -47,6 +61,13 @@ node {
   def target = '/Library/Tomcat/webapps/'
 	  sh "cp $source $target"
 	  }
+	  
+    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+    channel: '#devops', 
+    color: 'good', 
+    iconEmoji: '', 
+    message: 'Deployment to Tomcat is Completed!', 
+    teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
   } 
 
   stage ('Post Deploy Test'){
@@ -59,6 +80,13 @@ node {
 	   error "Pipeline aborted due to Site failure: $response"
 	  }else
 	  sh "echo 'Successfully Accessed the site with return code $response'"
+	  
+    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+    channel: '#devops', 
+    color: 'good', 
+    iconEmoji: '', 
+    message: 'Application is Accessible!', 
+    teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
   }
 	
 	
@@ -70,19 +98,16 @@ node {
   	rtMaven.tool = 'maven3.6.1'
   def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
   	server.publishBuildInfo buildInfo  
-  }	
-	
-   stage ('Slack Notification'){ 
+	  
     slackSend baseUrl: 'https://hooks.slack.com/services/', 
     channel: '#devops', 
     color: 'good', 
     iconEmoji: '', 
-    message: 'Your Build is now Deployed!', 
+    message: 'Code uploaded to Artifactory!', 
     teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
-  
-   }
+  }	
 	
-	stage('Email Notification'){
+   stage('Email Notification'){
        mail bcc: '', body: '''Hi Team! 
 Your Build is now Deployed!
 
