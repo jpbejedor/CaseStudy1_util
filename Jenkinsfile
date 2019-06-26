@@ -43,12 +43,23 @@ node {
 
   stage ('Post Deploy Test'){
       sleep 20   
-  def status = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
-	  sh "echo 'The Status of URL is $status' " 
-  if (status != 200) {
-    error("Returned status code = $status when calling URL")
-  }
-	sh "Success!!!!"
+  def url = "http://localhost:8082/myweb-0.0.1-SNAPSHOT"
+  def content 
+	  try {
+	    content = url.toURL().openConnection().with { conn ->
+		readTimeout = 10000
+		if( responseCode != 200 ) {
+		    throw new Exception( 'Not Ok' )
+		}
+		conn.content.withReader { r ->
+		    r.text
+		}
+	    }
+	}
+
+	catch( e ) {
+	    content="SORRY Webapp IS CURRENTLY NOT AVAILABLE"
+	}
   }
 	
   stage ('UPLOAD Artifactory'){
