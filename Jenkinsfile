@@ -90,7 +90,7 @@ node {
     iconEmoji: '', 
     message: 'Failed to Access the Web Application!', 
     teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
-		  
+           sleep 1
 	   error "Pipeline aborted due to Site failure: $response"
 	  }else
 	  sh "echo 'Successfully Accessed the site with return code $response'"
