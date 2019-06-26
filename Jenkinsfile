@@ -42,6 +42,13 @@ node {
                     //message: 'SonarQube Analysis Failed!', 
                    // teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: ''
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
+		      
+    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+    channel: '#devops', 
+    color: 'good', 
+    iconEmoji: '', 
+    message: 'Did Not Passed Quality Gate!', 
+    teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
               }
           }
 	
@@ -78,6 +85,14 @@ node {
        sh "echo 'Response is $response' "
 	  if (response != '200'){
 	   error "Pipeline aborted due to Site failure: $response"
+		  
+    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+    channel: '#devops', 
+    color: 'good', 
+    iconEmoji: '', 
+    message: 'Failed to Access the Web Application!', 
+    teamDomain: 'DEVOPS', tokenCredentialId: 'Slack_Token', username: 'jp.bedejor@sprint.com'
+		  
 	  }else
 	  sh "echo 'Successfully Accessed the site with return code $response'"
 	  
