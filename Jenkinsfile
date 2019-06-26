@@ -45,7 +45,7 @@ node {
       sleep 10  
 	  
      //def Response = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
-       def response = sh(script: 'curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s', returnStdout: true)
+       def response = sh (script: "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s", returnStdout: true)
        sh "Response is $response"
   }
 	
