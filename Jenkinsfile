@@ -81,7 +81,7 @@ node {
       sleep 10  
 	  
      //def Response = sh "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s"
-       def response = sh (script: "curl -LI http://localhost:8082/myweb-0.0.1-SNAPSHOT -o /dev/null -w '%{http_code}\n' -s", returnStdout: true).trim()
+       def response = sh (script: "curl -LI http://localhost:8082/myweb-0.0.1 -o /dev/null -w '%{http_code}\n' -s", returnStdout: true).trim()
        sh "echo 'Response is $response' "
 	  if (response != '200'){
 	   error "Pipeline aborted due to Site failure: $response"
